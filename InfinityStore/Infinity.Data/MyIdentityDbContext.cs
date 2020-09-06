@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Data.Entities.Identity;
-namespace Data
+namespace Infinity.Data
 {
     public class MyIdentityDbContext : IdentityDbContext<ApplicationUser>
     {

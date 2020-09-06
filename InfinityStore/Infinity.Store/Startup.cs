@@ -11,8 +11,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Data;
-using Data.Entities.Identity;
+using Infinity.Data;
+using Infinity.UnitOfWork;
+using Infinity.Services;
+using Infinity.Store;
 
 namespace InfinityStore
 {
@@ -21,6 +23,7 @@ namespace InfinityStore
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            AutoMapperConfiguration.Config();
         }
 
         public IConfiguration Configuration { get; }
@@ -28,9 +31,18 @@ namespace InfinityStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(provider => Configuration);
+
             services.AddDbContext<MyIdentityDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("IdentityConnection")));
+
+            services.AddDbContext<InfinityStoreDBContext>
+            (options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddDefaultIdentity<ApplicationUser>(options => { 
                 options.SignIn.RequireConfirmedAccount = false;
 
@@ -63,6 +75,7 @@ namespace InfinityStore
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -91,6 +104,10 @@ namespace InfinityStore
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute(
+                    name: "AdminArea",
+                    areaName: "admin",
+                    pattern: "admin/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

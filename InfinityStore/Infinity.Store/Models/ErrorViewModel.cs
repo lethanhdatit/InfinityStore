@@ -1,6 +1,6 @@
 using System;
 
-namespace InfinityStore.Models
+namespace Infinity.Store.Models
 {
     public class ErrorViewModel
     {

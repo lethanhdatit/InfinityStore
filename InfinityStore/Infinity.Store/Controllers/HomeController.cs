@@ -5,9 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using InfinityStore.Models;
+using Infinity.Store.Models;
+using Infinity.Data;
+using Infinity.Services;
+using Infinity.DTOs;
 
-namespace InfinityStore.Controllers
+namespace Infinity.Store.Controllers
 {
     public class HomeController : Controller
     {
@@ -22,12 +25,7 @@ namespace InfinityStore.Controllers
         {
             return View();
         }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+      
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

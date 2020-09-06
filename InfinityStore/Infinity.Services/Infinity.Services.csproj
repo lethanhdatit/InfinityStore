@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infinity.Common\Infinity.Common.csproj" />
+    <ProjectReference Include="..\Infinity.DTOs\Infinity.DTOs.csproj" />
+    <ProjectReference Include="..\Infinity.UnitOfWork\Infinity.UnitOfWork.csproj" />
+  </ItemGroup>
+
+</Project>

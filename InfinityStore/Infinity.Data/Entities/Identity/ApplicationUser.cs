@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Entities.Identity
+namespace Infinity.Data
 {
     public class ApplicationUser : IdentityUser
     {
