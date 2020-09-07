@@ -1,0 +1,57 @@
+﻿@page
+@model ExternalLoginModel
+@using Microsoft.AspNetCore.Identity
+@using Infinity.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    //.First(c => c.Type == "urn:facebook:name")
+    ViewData["Title"] = "Register";
+    var loginInfo = (await SignInManager.GetExternalLoginInfoAsync())?.Principal?.Claims;
+    var fullName = loginInfo?.FirstOrDefault(x => x.Type.EndsWith("/name"))?.Value;
+    var FName = loginInfo?.FirstOrDefault(x => x.Type.EndsWith("/surname"))?.Value;
+    var LName = loginInfo?.FirstOrDefault(x => x.Type.EndsWith("/givenname"))?.Value;
+    var MName = fullName.Replace(FName, "")
+                        .Replace(LName, "")
+                        .Trim();
+
+    var newFullName = $"{FName} {MName} {LName}";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4 id="external-login-title">Associate your @Model.ProviderDisplayName account.</h4>
+<hr />
+
+<p id="external-login-description" class="text-info">
+    You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
+    Please enter an email address for this site below and click the Register button to finish
+    logging in.
+</p>
+
+<div class="row">
+    <div class="col-md-4">
+        <textarea>@newFullName</textarea>
+        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

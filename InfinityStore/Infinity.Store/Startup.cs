@@ -67,6 +67,15 @@ namespace InfinityStore
             })
             .AddEntityFrameworkStores<MyIdentityDbContext>();
 
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = "968341527013985"/*Configuration["Authentication:Facebook:AppId"]*/;
+                facebookOptions.AppSecret = "be2ffcdc234eff451bb3ec8ffb422c25"/*Configuration["Authentication:Facebook:AppSecret"]*/;
+                facebookOptions.AccessDeniedPath = "/AccessDeniedPathInfo";
+                facebookOptions.Scope.Add("email");
+                facebookOptions.Scope.Add("public_profile");
+            });
+
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings

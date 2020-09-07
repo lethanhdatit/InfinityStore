@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="ht-right">
-                     @Html.Partial("_LoginPartial.cshtml")
+                    @Html.Partial("_LoginPartial.cshtml")
                     <div class="lan-selector">
                         <select class="language_drop" name="countries" id="countries" style="width:300px;">
                             <option value='vi' data-image="/content/img/flag-vi.jpg" data-imagecss="flag yu"
@@ -321,6 +321,7 @@
     <script src="~/content/js/jquery.slicknav.js"></script>
     <script src="~/content/js/owl.carousel.min.js"></script>
     <script src="~/js/main.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 
 </html>
