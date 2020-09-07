@@ -3,25 +3,17 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
-    }
-</ul>
+@if (SignInManager.IsSignedIn(User))
+{
+    var fullName = (await UserManager.FindByNameAsync(User.Identity.Name))?.ToFullName();
+    <form hidden id="logout-form" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+    </form>
+    <a href="javascript:{}" onclick="document.getElementById('logout-form').submit();" form="logout-form" class="login-panel btn btn-default btn-sm"><i class="fa fa-sign-out"></i>Logout</a>
+    <a class="login-panel" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello <span style="text-decoration: underline; font-weight: bold">@fullName</span> !</a>
+}
+else
+{
+    <a class="login-panel" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    <a class="login-panel" asp-area="Identity" asp-page="/Account/Login"><i class="fa fa-user"></i>Login</a>
+}
+

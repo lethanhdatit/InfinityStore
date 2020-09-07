@@ -1,8 +1,7 @@
 ﻿@using Infinity.Services
+@inject GlobalSettingService _settings
 @{
-//var s = ProductService;
-//s.
-
+    var globalSetting = _settings.Get();
 } 
 <!DOCTYPE html>
 <html lang="vi">
@@ -43,32 +42,31 @@
                 <div class="ht-left">
                     <div class="mail-service">
                         <i class=" fa fa-envelope"></i>
-                        hello.colorlib@gmail.com
+                        @globalSetting.WebEmail
                     </div>
                     <div class="phone-service">
                         <i class=" fa fa-phone"></i>
-                        +65 11.188.888
+                        @globalSetting.WebHotline
                     </div>
                 </div>
                 <div class="ht-right">
-                    <a href="#" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                     @Html.Partial("_LoginPartial.cshtml")
                     <div class="lan-selector">
                         <select class="language_drop" name="countries" id="countries" style="width:300px;">
-                            <option value='yt' data-image="/content/img/flag-1.jpg" data-imagecss="flag yt"
-                                    data-title="English">
-                                English
+                            <option value='vi' data-image="/content/img/flag-vi.jpg" data-imagecss="flag yu"
+                                    data-title="VietNam">
+                                VN
                             </option>
-                            <option value='yu' data-image="/content/img/flag-2.jpg" data-imagecss="flag yu"
+                            <option value='en' data-image="/content/img/flag-en.jpg" data-imagecss="flag yt"
                                     data-title="Bangladesh">
-                                German
+                                English
                             </option>
                         </select>
                     </div>
                     <div class="top-social">
-                        <a href="#"><i class="ti-facebook"></i></a>
-                        <a href="#"><i class="ti-twitter-alt"></i></a>
-                        <a href="#"><i class="ti-linkedin"></i></a>
-                        <a href="#"><i class="ti-pinterest"></i></a>
+                        <a target="_blank" href="@globalSetting.FanpageFacebook"><i class="ti-facebook"></i></a>
+                        <a target="_blank" href="@globalSetting.FanpageTwitter"><i class="ti-twitter-alt"></i></a>
+                        <a target="_blank" href="@globalSetting.YouTubeChannel"><i class="ti-youtube"></i></a>
                     </div>
                 </div>
             </div>
@@ -248,15 +246,14 @@
                             <a href="#"><img src="/content/img/footer-logo.png" alt=""></a>
                         </div>
                         <ul>
-                            <li>Address: 60-49 Road 11378 New York</li>
-                            <li>Phone: +65 11.188.888</li>
-                            <li>Email: hello.colorlib@gmail.com</li>
+                            <li>Address: @globalSetting.WebAddress</li>
+                            <li>Phone: @globalSetting.WebHotline</li>
+                            <li>Email: @globalSetting.WebEmail</li>
                         </ul>
                         <div class="footer-social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                            <a target="_blank" href="@globalSetting.FanpageFacebook"><i class="fa fa-facebook"></i></a>
+                            <a target="_blank" href="@globalSetting.FanpageTwitter"><i class="fa fa-twitter"></i></a>
+                            <a target="_blank" href="@globalSetting.YouTubeChannel"><i class="fa fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
@@ -301,7 +298,7 @@
                         <div class="copyright-text">
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            @globalSetting.CopyrightYear All rights reserved <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">@globalSetting.WebDevOrganization</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </div>
                         <div class="payment-pic">

@@ -1,4 +1,5 @@
-﻿using Infinity.Data;
+﻿using Infinity.Common;
+using Infinity.Data;
 using Infinity.DTOs;
 using Infinity.Repositories;
 using Infinity.UnitOfWork;
@@ -20,7 +21,7 @@ namespace Infinity.Services
 
         public IEnumerable<ProductsDto> GetAllActive()
         {
-            var entities = _unitOfWork.ProductRepository.Find(x => x.Status == 1);
+            var entities = _unitOfWork.ProductRepository.Find(x => x.Status == (byte)ProductStatus.Active);
             return EntityToDto(entities);
         }
 

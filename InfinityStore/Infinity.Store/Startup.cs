@@ -35,11 +35,12 @@ namespace InfinityStore
 
             services.AddDbContext<MyIdentityDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("IdentityConnection")));
+                    Configuration.GetConnectionString("MainConnection")));
 
             services.AddDbContext<InfinityStoreDBContext>
-            (options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+            (options => options.UseSqlServer(Configuration.GetConnectionString("MainConnection")));
 
+            services.AddTransient<GlobalSettingService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -65,6 +66,7 @@ namespace InfinityStore
                 options.User.RequireUniqueEmail = false;
             })
             .AddEntityFrameworkStores<MyIdentityDbContext>();
+
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings

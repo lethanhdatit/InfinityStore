@@ -20,5 +20,10 @@ namespace Infinity.Data
         [Required]
         public bool Gender { get; set; }
         public string AvatarUrl { get; set; }
+
+        public string ToFullName()
+        {
+            return $"{FName} {MName} {LName}";
+        }
     }
 }
