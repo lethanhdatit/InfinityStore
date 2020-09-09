@@ -83,11 +83,13 @@ namespace Infinity.Store.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, 
-                                                 Email = Input.Email,
-                                                 FName = Input.FirstName,
-                                                 LName = Input.LastName,
-                                                 MName = Input.MiddleName,
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    FName = Input.FirstName,
+                    LName = Input.LastName,
+                    MName = Input.MiddleName,
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

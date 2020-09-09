@@ -52,6 +52,17 @@ namespace Infinity.Store.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Display(Name = "Middle Name")]
+            public string MiddleName { get; set; }
+            [Required]
+            [Display(Name = "First Name")]
+            public string LastName { get; set; }
+            public string AvatarUrl { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -100,10 +111,26 @@ namespace Infinity.Store.Areas.Identity.Pages.Account
                 ProviderDisplayName = info.ProviderDisplayName;
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
+                    var fullName = info.Principal.FindFirstValue(ClaimTypes.Name);
+                    var FName = info.Principal.FindFirstValue(ClaimTypes.Surname);
+                    var LName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+                    var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var picture = $"https://graph.facebook.com/{identifier}/picture";
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        FirstName = FName,
+                        LastName = LName,
+                        AvatarUrl = picture
                     };
+                    var MName = "";
+                    if (!String.IsNullOrWhiteSpace(fullName))
+                    {
+                        MName = fullName.Replace(!String.IsNullOrWhiteSpace(Input.FirstName) ? Input.FirstName : "", "")
+                                        .Replace(!String.IsNullOrWhiteSpace(Input.LastName) ? Input.LastName : "", "")
+                                        .Trim();
+                    }
+                    Input.MiddleName = MName;
                 }
                 return Page();
             }
@@ -122,8 +149,15 @@ namespace Infinity.Store.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    FName = Input.FirstName,
+                    LName = Input.LastName,
+                    MName = Input.MiddleName,
+                    AvatarUrl = Input.AvatarUrl
+                };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

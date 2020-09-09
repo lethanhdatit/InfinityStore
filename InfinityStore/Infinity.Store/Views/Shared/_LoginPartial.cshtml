@@ -5,11 +5,12 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    var fullName = (await UserManager.FindByNameAsync(User.Identity.Name))?.ToFullName();
+    var user = (await UserManager.FindByNameAsync(User.Identity.Name));
+    var fullName = user?.ToFullName();
     <form hidden id="logout-form" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
     </form>
     <a href="javascript:{}" onclick="document.getElementById('logout-form').submit();" form="logout-form" class="login-panel btn btn-default btn-sm"><i class="fa fa-sign-out"></i>Logout</a>
-    <a class="login-panel" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello <span style="text-decoration: underline; font-weight: bold">@fullName</span> !</a>
+    <a class="login-panel" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @if(!String.IsNullOrWhiteSpace(@user.AvatarUrl)) {<img class="avatar" src="@user.AvatarUrl">}<span style="text-decoration: underline; font-weight: bold">@fullName</span> !</a>
 }
 else
 {

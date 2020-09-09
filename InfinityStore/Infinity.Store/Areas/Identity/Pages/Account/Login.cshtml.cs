@@ -97,13 +97,20 @@ namespace Infinity.Store.Areas.Identity.Pages.Account
                 }
                 else
                 {
+                    await InitData();
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
             }
-
+            await InitData();
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+        async Task InitData()
+        {
+            // Clear the existing external cookie to ensure a clean login process
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
     }
 }

@@ -59,46 +59,31 @@
                         </div>
                         <button type="submit" class="site-btn register-btn">REGISTER</button>
                     </form>
+                    <div style="margin-top: 5px" class="group-input">
+                        <section>
+                            <hr />
+                            @{
+                                if ((Model.ExternalLogins?.Count ?? 0) > 0)
+                                {
+                                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                        @foreach (var provider in Model.ExternalLogins)
+                                        {
+                                            <button class="btn btn-block btn-social btn-sm btn-@provider.Name.ToLower()" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                                <span class="fa fa-@provider.Name.ToLower()"></span> Register with @provider.Name
+                                            </button>
+                                        }
+                                    </form>
+                                }
+                            }
+                            <hr />
+                        </section>
+                    </div>
                     <div class="switch-login">
                         <a asp-page="login" class="or-login">Or Login</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to register.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="Input.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
     </div>
 </div>
 

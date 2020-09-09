@@ -74,6 +74,11 @@ namespace InfinityStore
                 facebookOptions.AccessDeniedPath = "/AccessDeniedPathInfo";
                 facebookOptions.Scope.Add("email");
                 facebookOptions.Scope.Add("public_profile");
+            })
+            .AddGoogle(options =>
+            {
+                options.ClientId = "664769038445-mubnjosvilm0n2cim1b7f1ldt6sd7uai.apps.googleusercontent.com";
+                options.ClientSecret = "pzvNaCTs_uU0vaXRimavxpOC";
             });
 
             services.ConfigureApplicationCookie(options =>
