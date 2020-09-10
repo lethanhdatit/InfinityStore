@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using IdentityModel;
 
 namespace Infinity.Store.Areas.Identity.Pages.Account
 {
@@ -114,8 +115,8 @@ namespace Infinity.Store.Areas.Identity.Pages.Account
                     var fullName = info.Principal.FindFirstValue(ClaimTypes.Name);
                     var FName = info.Principal.FindFirstValue(ClaimTypes.Surname);
                     var LName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
-                    var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
-                    var picture = $"https://graph.facebook.com/{identifier}/picture";
+                    //var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var picture = info.Principal.FindFirstValue(JwtClaimTypes.Picture);
                     Input = new InputModel
                     {
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email),

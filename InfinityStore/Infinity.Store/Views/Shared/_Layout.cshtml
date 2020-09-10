@@ -1,19 +1,21 @@
-﻿@using Infinity.Services
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Infinity.Services
 @inject GlobalSettingService _settings
+@inject IViewLocalizer Localizer
 @{
     var globalSetting = _settings.Get();
-} 
+}
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Fashi Template">
-    <meta name="keywords" content="Fashi, unica, creative, html">
+    <meta name="description" content="LTD Dev Team">
+    <meta name="keywords" content="infinity shop, infinity store, e-shopping">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@ViewBag.Title</title>
-
+    <title>@ViewBag.Title | Infinity Store</title>
+    <link rel="shortcut icon" type="image/png" href="~/content/img/favico.ico">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
@@ -42,7 +44,7 @@
                 <div class="ht-left">
                     <div class="mail-service">
                         <i class=" fa fa-envelope"></i>
-                        @globalSetting.WebEmail
+                        @globalSetting.WebEmail @Localizer["Testing"]
                     </div>
                     <div class="phone-service">
                         <i class=" fa fa-phone"></i>
@@ -52,7 +54,8 @@
                 <div class="ht-right">
                     @Html.Partial("_LoginPartial.cshtml")
                     <div class="lan-selector">
-                        <select class="language_drop" name="countries" id="countries" style="width:300px;">
+                        @await Html.PartialAsync("_SelectLanguagePartial")
+                        @*<select class="language_drop" name="countries" id="countries" style="width:300px;">
                             <option value='vi' data-image="/content/img/flag-vi.jpg" data-imagecss="flag yu"
                                     data-title="VietNam">
                                 VN
@@ -61,7 +64,7 @@
                                     data-title="Bangladesh">
                                 English
                             </option>
-                        </select>
+                        </select>*@
                     </div>
                     <div class="top-social">
                         <a target="_blank" href="@globalSetting.FanpageFacebook"><i class="ti-facebook"></i></a>
@@ -296,10 +299,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="copyright-text">
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright &copy;
-                            @globalSetting.CopyrightYear All rights reserved <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">@globalSetting.WebDevOrganization</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            @globalSetting.CopyrightYear All rights reserved by <a href="#" target="_blank">@globalSetting.WebDevOrganization</a>
                         </div>
                         <div class="payment-pic">
                             <img src="/content/img/payment-method.png" alt="">

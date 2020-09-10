@@ -1,7 +1,7 @@
 ﻿@page
 @model ExternalLoginModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = $"Associate your {Model.ProviderDisplayName} account";
 }
 
 <div class="register-login-section spad">
@@ -16,7 +16,9 @@
                         logging in.
                     </p>
                     <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                        <img src="@Model.Input.AvatarUrl"/>
+                        <div class="mx-auto d-block">
+                            <img style="height: 80px; width: 80px" class="mx-auto d-block img-thumbnail" src="@Model.Input.AvatarUrl">
+                        </div>
                         <input hidden type="text" asp-for="Input.AvatarUrl">
                         <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="group-input">
