@@ -73,7 +73,6 @@ namespace InfinityStore
                 var supportedCultures = new[]
                 {
                     new CultureInfo("en-US"),
-                    new CultureInfo("fr"),
                     new CultureInfo("vi")
                 };
 
