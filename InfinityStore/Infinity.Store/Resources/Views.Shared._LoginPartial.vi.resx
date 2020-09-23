@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Hello" xml:space="preserve">
+    <value>Xin chào</value>
+  </data>
   <data name="Login" xml:space="preserve">
-    <value>Login</value>
+    <value>Đăng Nhập</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Đăng Xuất</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Register</value>
+    <value>Đăng Ký</value>
   </data>
 </root>

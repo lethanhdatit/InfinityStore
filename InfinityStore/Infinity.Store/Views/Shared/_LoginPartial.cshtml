@@ -1,20 +1,27 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Infinity.Data
+@using Microsoft.AspNetCore.Mvc.Localization
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IViewLocalizer Localizer
 
-@if (SignInManager.IsSignedIn(User))
-{
-    var user = (await UserManager.FindByNameAsync(User.Identity.Name));
-    var fullName = user?.ToFullName();
-    <form hidden id="logout-form" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-    </form>
-    <a href="javascript:{}" onclick="document.getElementById('logout-form').submit();" form="logout-form" class="login-panel btn btn-default btn-sm"><i class="fa fa-sign-out"></i>Logout</a>
-    <a class="login-panel" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @if(!String.IsNullOrWhiteSpace(@user.AvatarUrl)) {<img class="avatar" src="@user.AvatarUrl">}<span style="text-decoration: underline; font-weight: bold">@fullName</span> !</a>
-}
-else
-{
-    <a class="login-panel" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    <a class="login-panel" asp-area="Identity" asp-page="/Account/Login"><i class="fa fa-user"></i>Login</a>
-}
-
+<div class="top-social">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var user = (await UserManager.FindByNameAsync(User.Identity.Name));
+        var fullName = user?.ToFullName();
+        <form hidden id="logout-form" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        </form>
+        <a href="javascript:{}" onclick="document.getElementById('logout-form').submit();" form="logout-form" ><i class="fa fa-sign-out"></i>@Localizer["Logout"]</a>
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            @Localizer["Hello"] 
+            @if (!String.IsNullOrWhiteSpace(@user.AvatarUrl))
+            {<img class="avatar" src="@user.AvatarUrl">} <span style="text-decoration: underline; font-weight: bold"> @fullName</span> !
+        </a>
+    }
+    else
+    {
+        <a asp-area="Identity" asp-page="/Account/Register"> @Localizer["Register"]</a>
+        <a asp-area="Identity" asp-page="/Account/Login"><i class="fa fa-user"></i> @Localizer["Login"]</a>
+    }
+</div>

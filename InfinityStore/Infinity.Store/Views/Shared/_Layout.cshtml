@@ -44,7 +44,7 @@
                 <div class="ht-left">
                     <div class="mail-service">
                         <i class=" fa fa-envelope"></i>
-                        @globalSetting.WebEmail @Localizer["Testing"]
+                        @globalSetting.WebEmail
                     </div>
                     <div class="phone-service">
                         <i class=" fa fa-phone"></i>
@@ -55,16 +55,6 @@
                     @Html.Partial("_LoginPartial.cshtml")
                     <div class="lan-selector">
                         @await Html.PartialAsync("_SelectLanguagePartial")
-                        @*<select class="language_drop" name="countries" id="countries" style="width:300px;">
-                            <option value='vi' data-image="/content/img/flag-vi.jpg" data-imagecss="flag yu"
-                                    data-title="VietNam">
-                                VN
-                            </option>
-                            <option value='en' data-image="/content/img/flag-en.jpg" data-imagecss="flag yt"
-                                    data-title="Bangladesh">
-                                English
-                            </option>
-                        </select>*@
                     </div>
                     <div class="top-social">
                         <a target="_blank" href="@globalSetting.FanpageFacebook"><i class="ti-facebook"></i></a>

@@ -53,21 +53,16 @@ namespace InfinityStore
             services.AddDbContext<InfinityStoreDBContext>
             (options => options.UseSqlServer(Configuration.GetConnectionString("MainConnection")));
 
-            // Add the localization services to the services container
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddMvc()
-                // Add support for finding localized views, based on file name suffix, e.g. Index.fr.cshtml
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                // Add support for localizing strings in data annotations (e.g. validation messages) via the
-                // IStringLocalizer abstractions.
                 .AddDataAnnotationsLocalization();
 
             services.AddTransient<GlobalSettingService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            // Configure supported cultures and localization options
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[]
@@ -76,29 +71,9 @@ namespace InfinityStore
                     new CultureInfo("vi")
                 };
 
-                // State what the default culture for your application is. This will be used if no specific culture
-                // can be determined for a given request.
                 options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
-
-                // You must explicitly state which cultures your application supports.
-                // These are the cultures the app supports for formatting numbers, dates, etc.
                 options.SupportedCultures = supportedCultures;
-
-                // These are the cultures the app supports for UI strings, i.e. we have localized resources for.
                 options.SupportedUICultures = supportedCultures;
-
-                // You can change which providers are configured to determine the culture for requests, or even add a custom
-                // provider with your own logic. The providers will be asked in order to provide a culture for each request,
-                // and the first to provide a non-null result that is in the configured supported cultures list will be used.
-                // By default, the following built-in providers are configured:
-                // - QueryStringRequestCultureProvider, sets culture via "culture" and "ui-culture" query string values, useful for testing
-                // - CookieRequestCultureProvider, sets culture via "ASPNET_CULTURE" cookie
-                // - AcceptLanguageHeaderRequestCultureProvider, sets culture via the "Accept-Language" request header
-                //options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
-                //{
-                //  // My custom request culture logic
-                //  return new ProviderCultureResult("en");
-                //}));
             });
 
             services.AddDefaultIdentity<ApplicationUser>(options => { 
@@ -127,9 +102,9 @@ namespace InfinityStore
             services.AddAuthentication()
             .AddFacebook(o =>
             {
-                o.AppId = "968341527013985"/*Configuration["Authentication:Facebook:AppId"]*/;
-                o.AppSecret = "be2ffcdc234eff451bb3ec8ffb422c25"/*Configuration["Authentication:Facebook:AppSecret"]*/;
-                o.AccessDeniedPath = "/AccessDeniedPathInfo";
+                o.AppId = Configuration.GetValue<string>("Providers:Facebook:AppId");
+                o.AppSecret = Configuration.GetValue<string>("Providers:Facebook:AppSecret");
+                o.AccessDeniedPath = "/Home/Index";
                 o.Scope.Add("email");
                 o.Scope.Add("public_profile");
                 o.Events.OnCreatingTicket = (context) =>
@@ -141,8 +116,9 @@ namespace InfinityStore
             })
             .AddGoogle(o =>
             {
-                o.ClientId = "664769038445-mubnjosvilm0n2cim1b7f1ldt6sd7uai.apps.googleusercontent.com";
-                o.ClientSecret = "pzvNaCTs_uU0vaXRimavxpOC";
+                o.ClientId = Configuration.GetValue<string>("Providers:Google:ClientId");
+                o.ClientSecret = Configuration.GetValue<string>("Providers:Google:ClientSecret");
+                o.AccessDeniedPath = "/Home/Index";
                 o.Scope.Add("profile");
                 o.Events.OnCreatingTicket = (context) =>
                 {

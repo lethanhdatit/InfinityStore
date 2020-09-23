@@ -10,18 +10,25 @@
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
     var cultureItems = LocOptions.Value.SupportedUICultures
-        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .Select(c => new LanguageModel { TwoLetterISOLanguageName = c.TwoLetterISOLanguageName, ThreeLetterISOLanguageName = c.ThreeLetterISOLanguageName, NativeName = c.NativeName })
         .ToList();
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
 }
 
-<div title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
-    <form id="selectLanguage" asp-controller="Home"
-          asp-action="SetLanguage" asp-route-returnUrl="@returnUrl"
-          method="post" class="form-horizontal" role="form">
-        <label asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language:"]</label> <select name="culture"
-                                                                                                               onchange="this.form.submit();"
-                                                                                                               asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
-        </select>
-    </form>
-</div>
+<form id="selectLanguage" asp-controller="Home"
+      asp-action="SetLanguage" asp-route-returnUrl="@returnUrl"
+      method="post" class="form-horizontal" role="form">
+    <select class="language_drop" name="culture" id="culture" style="width:300px;" onchange="this.form.submit();" asp-for="@requestCulture.RequestCulture.UICulture.Name">
+        @if (cultureItems != null)
+        {
+            foreach (var item in cultureItems)
+            {
+                var urlImg = $"/content/img/flag-{item.TwoLetterISOLanguageName}.jpg";
+                <option value='@item.TwoLetterISOLanguageName' data-image="@urlImg" data-imagecss="flag yu"
+                        data-title="@item.NativeName">
+                  @item.ThreeLetterISOLanguageName.ToUpperInvariant()
+                </option>
+            }
+        }
+    </select>
+</form>
