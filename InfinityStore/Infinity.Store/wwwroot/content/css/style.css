@@ -30,6 +30,15 @@
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
+.custom-overflow-default {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.dropdown-menu span.js-search-category-item:hover {
+	background: transparent;
+	color: #e7ab3c;
+}
 .avatar {
 	vertical-align: middle;
 	width: 22px;
@@ -437,7 +446,7 @@ ol {
 }
 
 .inner-header .advanced-search .category-btn {
-	max-width: 30%;
+	width: 30%;
 	float: left;
 	background: transparent;
 	border: none;

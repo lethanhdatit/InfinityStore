@@ -247,4 +247,13 @@
 		$button.parent().find('input').val(newVal);
 	});
 
+    var searchCateItem = $('.js-search-category-item');
+    var searchSelectedCateItem = $('#js-search-selected-category');
+    searchCateItem.on('click', function () {
+        var cateId = $(this).data('selected-cate-id');
+        var cateText = $(this).text();
+        $(searchSelectedCateItem).html(cateText);
+        $(searchSelectedCateItem).attr('data-selected-cate-id', cateId);
+    });
+
 })(jQuery);

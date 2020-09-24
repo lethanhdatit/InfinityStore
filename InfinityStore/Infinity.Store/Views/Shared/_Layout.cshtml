@@ -76,9 +76,17 @@
                     </div>
                     <div class="col-lg-7 col-md-7">
                         <div class="advanced-search">
-                            <button type="button" class="category-btn">All Categories</button>
+                            <button id="js-search-selected-category" data-selected-cate-id="0" type="button" class="category-btn custom-overflow-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Categories</button>
+                            <div class="dropdown-menu" style="white-space: nowrap;">
+                                @for (int i = 1; i <= 6; i++)
+                                {
+                                    <span style="cursor: pointer;" class="dropdown-item js-search-category-item" data-selected-cate-id="@i">Category @i</span>
+                                }
+                                <div class="dropdown-divider"></div>
+                                <span style="cursor: pointer;" class="dropdown-item js-search-category-item" data-selected-cate-id="-1">Category Category Category Category</span>
+                            </div>
                             <div class="input-group">
-                                <input type="text" placeholder="What do you need?">
+                                <input type="text" placeholder="@Localizer["What do you need?"]">
                                 <button type="button"><i class="ti-search"></i></button>
                             </div>
                         </div>
@@ -303,6 +311,7 @@
     <!-- Footer Section End -->
     <!-- Js Plugins -->
     <script src="~/content/js/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="~/content/js/bootstrap.min.js"></script>
     <script src="~/content/js/jquery-ui.min.js"></script>
     <script src="~/content/js/jquery.countdown.min.js"></script>

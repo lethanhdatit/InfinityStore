@@ -123,4 +123,8 @@
   <data name="Register" xml:space="preserve">
     <value>Đăng Ký</value>
   </data>
+  <data name="What do you need?" xml:space="preserve">
+    <value>Bạn cần tìm gì?</value>
+    <comment>placeholder thanh search tổng</comment>
+  </data>
 </root>
