@@ -14,18 +14,13 @@ using Microsoft.AspNetCore.Http;
 
 namespace Infinity.Store.Controllers
 {
-    public class HomeController : Controller
+    public class GlobalController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<GlobalController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public GlobalController(ILogger<GlobalController> logger)
         {
             _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
         }
       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -34,16 +29,16 @@ namespace Infinity.Store.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //[HttpPost]
-        public IActionResult SetLanguage(string culture, string returnUrl)
-        {
-            Response.Cookies.Append(
-                CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-            );
+        ////[HttpPost]
+        //public IActionResult SetLanguage(string culture, string returnUrl)
+        //{
+        //    Response.Cookies.Append(
+        //        CookieRequestCultureProvider.DefaultCookieName,
+        //        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+        //        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+        //    );
 
-            return LocalRedirect(returnUrl);
-        }
+        //    return LocalRedirect(returnUrl);
+        //}
     }
 }

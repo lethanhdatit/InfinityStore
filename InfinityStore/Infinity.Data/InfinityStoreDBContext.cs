@@ -25,11 +25,6 @@ namespace Infinity.Data
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<Categories> Categories { get; set; }
-        public virtual DbSet<ProductInstances> ProductInstances { get; set; }
-        public virtual DbSet<ProductProperties> ProductProperties { get; set; }
-        public virtual DbSet<Products> Products { get; set; }
-        public virtual DbSet<Properties> Properties { get; set; }
         public virtual DbSet<GlobalSetting> GlobalSettings { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -158,123 +153,6 @@ namespace Infinity.Data
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
-            });
-
-            modelBuilder.Entity<Categories>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.CreatedTs)
-                    .HasColumnName("CreatedTS")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.LastUpdatedTs)
-                    .HasColumnName("LastUpdatedTS")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(128);
-
-                entity.Property(e => e.ParentId).HasColumnName("ParentID");
-
-                entity.HasOne(d => d.Parent)
-                    .WithMany(p => p.InverseParent)
-                    .HasForeignKey(d => d.ParentId)
-                    .HasConstraintName("FK_Categories_Categories");
-            });
-
-            modelBuilder.Entity<ProductInstances>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.CreatedTs)
-                    .HasColumnName("CreatedTS")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.LastUpdatedTs)
-                    .HasColumnName("LastUpdatedTS")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
-            });
-
-            modelBuilder.Entity<ProductProperties>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.CreatedTs)
-                    .HasColumnName("CreatedTS")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.CustomPropertyId).HasColumnName("CustomPropertyID");
-
-                entity.Property(e => e.LastUpdatedTs)
-                    .HasColumnName("LastUpdatedTS")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-                entity.Property(e => e.ProductInstanceId).HasColumnName("ProductInstanceID");
-
-                entity.HasOne(d => d.CustomProperty)
-                    .WithMany(p => p.ProductProperties)
-                    .HasForeignKey(d => d.CustomPropertyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProductProperties_Properties");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.ProductProperties)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProductProperties_Products");
-
-                entity.HasOne(d => d.ProductInstance)
-                    .WithMany(p => p.ProductProperties)
-                    .HasForeignKey(d => d.ProductInstanceId)
-                    .HasConstraintName("FK_ProductProperties_ProductInstances");
-            });
-
-            modelBuilder.Entity<Products>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-
-                entity.Property(e => e.CreatedTs)
-                    .HasColumnName("CreatedTS")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.LastUpdatedTs)
-                    .HasColumnName("LastUpdatedTS")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(128);
-
-                entity.HasOne(d => d.Category)
-                    .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.CategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Products_Categories");
-            });
-
-            modelBuilder.Entity<Properties>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.CreatedTs)
-                    .HasColumnName("CreatedTS")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.LastUpdatedTs)
-                    .HasColumnName("LastUpdatedTS")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(128);
             });
 
             OnModelCreatingPartial(modelBuilder);
