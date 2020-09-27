@@ -15,7 +15,7 @@ namespace Infinity.Data
             : base(options)
         {
             this._configuration = configuration;
-            DbConnection = new SqlConnection(this._configuration.GetConnectionString("IdentityConnection"));
+            DbConnection = new SqlConnection(this._configuration.GetConnectionString("MainConnection"));
         }
 
         public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
