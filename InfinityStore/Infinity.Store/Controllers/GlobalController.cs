@@ -17,10 +17,11 @@ namespace Infinity.Store.Controllers
     public class GlobalController : Controller
     {
         private readonly ILogger<GlobalController> _logger;
-
-        public GlobalController(ILogger<GlobalController> logger)
+        private readonly ICategoryService  _categoryService;
+        public GlobalController(ILogger<GlobalController> logger, ICategoryService categoryService)
         {
             _logger = logger;
+            _categoryService = categoryService;
         }
       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -28,7 +29,10 @@ namespace Infinity.Store.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
+        public IActionResult BuildCategories()
+        {
+            return Json(_categoryService.GetToShowMenu(HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.ThreeLetterISOLanguageName));
+        }
         ////[HttpPost]
         //public IActionResult SetLanguage(string culture, string returnUrl)
         //{

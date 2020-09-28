@@ -21,11 +21,22 @@ namespace Infinity.Services
 
         public IEnumerable<CategoryMenu> GetToShowMenu(string threeLetterISO, byte maxLv = 2)
         {
-            var groups = _unitOfWork.CategoryRepository.Find(x => x.Status == (byte)BaseStatus.Active, includeProperties: "CategoryTranslations")
+            var results = (new List<CategoryMenu>());
+            results.Add(new CategoryMenu()
+            {
+                Id = 0,
+                Name = "",
+                ImgUrl = null,
+                ParentId = null
+            });
+
+            var groups = _reponsitory.Find(x => x.Status == (byte)BaseStatus.Active, includeProperties: "CategoryTranslations.Language")
                                                        .AsEnumerable()
                                                        .GroupBy(i => i.ParentId);
+
             var roots = groups?.FirstOrDefault(g => g.Key.HasValue == false)?
-                        .Select(s => {
+                        .Select(s =>
+                        {
                             var cateTransl = s.CategoryTranslations?.FirstOrDefault(f => f.Language?.ThreeLetterIso.ToUpper() == threeLetterISO.ToUpper());
                             return new CategoryMenu()
                             {
@@ -37,7 +48,9 @@ namespace Infinity.Services
                         })
                         .ToList();
 
-            if (roots != null && roots.Count > 0)
+            if(roots != null && roots.Any()) results.AddRange(roots);
+
+            if (results != null && results.Count > 1)
             {
                 var dict = groups?.Where(g => g.Key.HasValue).ToDictionary(g => g.Key.Value, g => g.Select(s => {
                     var cateTransl = s.CategoryTranslations?.FirstOrDefault(f => f.Language?.ThreeLetterIso.ToUpper() == threeLetterISO.ToUpper());
@@ -50,11 +63,11 @@ namespace Infinity.Services
                     };
                 })
                 .ToList());
-                for (int i = 0; i < roots.Count; i++)
-                    AddChildren(roots[i], dict);
+                for (int i = 0; i < results.Count; i++)
+                    AddChildren(results[i], dict);
             }
 
-            return roots;
+            return results;
         }
         private static void AddChildren(CategoryMenu node, IDictionary<long, List<CategoryMenu>> source)
         {

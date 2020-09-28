@@ -30,23 +30,30 @@
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
+.dropdown-submenu {
+	position: relative;
+	white-space: nowrap;
+}
+
+	.dropdown-submenu .dropdown-menu {
+		top: 0;
+		left: 100%;
+		white-space: nowrap;
+		margin-top: -1px;
+	}
 .dropdown-item.can-expand {
 	padding-right: 0.5rem;
+	display: flex;
+	justify-content: space-between;
 }
 .inner-header .advanced-search .js-search-category-item i.can-expand {
-	/*position: absolute;
-	right: 11px;*/
-	/*top: 10px;*/
-	/*content: "5";
-	font-family: "ElegantIcons";
-	font-size: 16px;
-	color: #b2b2b2;*/
-	/*margin-left: 5px;*/
 	width: 2rem;
-	padding-left: 1rem;
+	padding-left: 1.2rem;
 	color: #b2b2b2;
 	font-size: 19px;
 	font-weight: bold;
+	height: 20px;
+	padding-top: 2px;
 }
 .custom-overflow-default {
 	overflow: hidden;
@@ -420,9 +427,14 @@ ol {
 		padding-top: 18px;
 		padding-bottom: 15px;
 	}
-
+		.header-top .ht-right .login-panel a {
+			color: #252525;
+			font-size: 14px;
+			display: inline-block;
+			margin-left: 8px;
+		}
 .header-top .ht-right .login-panel i {
-	margin-right: 8px;
+	margin-right: 2px;
 }
 
 .header-top .ht-right .lan-selector {
@@ -445,6 +457,20 @@ ol {
 	display: inline-block;
 	margin-left: 15px;
 }
+	.header-top .ht-right .login-partial {
+		float: right;
+		padding-right: 20px;
+		padding-top: 15px;
+		padding-bottom: 15px;
+		border-right: 1px solid #e5e5e5;
+	}
+
+		.header-top .ht-right .login-partial a {
+			color: #252525;
+			font-size: 14px;
+			display: inline-block;
+			margin-left: 15px;
+		}
 
 .inner-header {
 	padding: 39px 0;
@@ -464,7 +490,7 @@ ol {
 }
 
 .inner-header .advanced-search .category-btn {
-	width: 30%;
+	width: 35%;
 	float: left;
 	background: transparent;
 	border: none;
@@ -498,7 +524,7 @@ ol {
 }
 
 .inner-header .advanced-search .input-group {
-	max-width: 70%;
+	max-width: 65%;
 	height: 100%;
 }
 
@@ -4043,6 +4069,9 @@ ol {
 	.header-top .ht-right .top-social {
 		padding-right: 10px;
 	}
+	.header-top .ht-right .login-partial {
+		padding-right: 10px;
+	}
 	.header-top .ht-left .mail-service {
 		padding-right: 10px;
 	}
@@ -4050,6 +4079,9 @@ ol {
 		padding-left: 10px;
 	}
 	.header-top .ht-right .top-social a {
+		margin-left: 10px;
+	}
+	.header-top .ht-right .login-partial a {
 		margin-left: 10px;
 	}
 	.inner-header .advanced-search .category-btn {

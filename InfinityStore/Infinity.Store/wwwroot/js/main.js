@@ -248,33 +248,57 @@
 	});
 
     $(document).ready(function () {
+        $.ajax({
+            url: $('#build-categories-api-endpoint').val(),
+            type: 'GET',
+            success: function (result) {
+                 //Build search-dropdown categories multi level
+                $('#search-category-dropdown-root').html(menuBuilder(result));
 
-        var searchCateItem = $('.js-search-category-item');
-        var searchSelectedCateItem = $('#js-search-selected-category');
-        searchCateItem.on('click', function () {
-            var cateId = $(this).data('selected-cate-id');
-            var cateText = $(this).text();
-            $(searchSelectedCateItem).html(cateText);
-            $(searchSelectedCateItem).attr('data-selected-cate-id', cateId);
-            $(this).parents('.dropdown-menu').first().find('.show').removeClass('show');
-        });
+                //Init event for selecting dropdown item
+                $('.js-search-category-item').on('click', function () {
+                    var cateId = $(this).data('selected-cate-id');
+                    var cateText = $(this).text();
+                    var searchSelectedCateItem = $('#js-search-selected-category');
+                    $(searchSelectedCateItem).html(cateText);
+                    $(searchSelectedCateItem).attr('data-selected-cate-id', cateId);
+                    $(this).parents('.dropdown-menu').first().find('.show').removeClass('show');
+                });
 
-        $('.js-search-category-item i.can-expand').on("click", function (e) {
-            var root = $(this).parent('span');
-            if (!$(root).next('ul.dropdown-menu').hasClass('show')) {
-                $(root).parents('.dropdown-menu').first().find('.show').removeClass('show');
+                //Init event for expand sub-category
+                $('.js-search-category-item i.can-expand').on("click", function (e) {
+                    var root = $(this).parent('span');
+                    if (!$(root).next('ul.dropdown-menu').hasClass('show')) {
+                        $(root).parents('.dropdown-menu').first().find('.show').removeClass('show');
+                    }
+                    var $subMenu = $(root).next('.dropdown-menu');
+                    $subMenu.toggleClass('show');
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                // TODO
             }
-            var $subMenu = $(root).next('.dropdown-menu');
-            $subMenu.toggleClass('show');
-            e.stopPropagation();
-            e.preventDefault();
         });
+        // Build multi-level dropdown
+        var menuBuilder = (cateTree) => {
+            if (cateTree && cateTree.length > 0) {
+                var result = "";
+                result += `<ul class="dropdown-menu">`;
+                cateTree.forEach((item) => {
+                    var hasSub = item.children.length > 0;
+                    result += `<li class="dropdown-submenu">`;
+                    result += `<span style="cursor: pointer;" class="dropdown-item js-search-category-item ${hasSub ? 'can-expand' : ''}" data-selected-cate-id="${item.id}">`;
+                    result += `<span>${item.id == 0 ? $('#cateDefaultItemLocalizer').val() : item.name}</span>`;
+                    if (hasSub) result += `<i class="can-expand fa fa-angle-right"></i>`;
+                    result += `</span>`;
+                    if (hasSub) result += menuBuilder(item.children);
+                    result += `</li>`;
+                });
+                result += `</ul>`;
+            }
+            return result;
+        }
     });
-    $(document).ready(function (e) {
-        var cateData = JSON.parse($('#cateDataStr').val());
-        console.log(cateData);
-    });
-    var menuBuilder = () => {
-      
-    }
 })(jQuery);
