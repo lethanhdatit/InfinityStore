@@ -19,23 +19,23 @@ namespace Infinity.UnitOfWork
         private void InitRepositories()
         {
             CategoryRepository = new GenericRepository<Categories>(_context);
-            PropertyRepository = new GenericRepository<Properties>(_context);
-            ProductRepository = new GenericRepository<Products>(_context);
-            ProductPropertyRepository = new GenericRepository<ProductProperties>(_context);
-            ProductInstanceRepository = new GenericRepository<ProductInstances>(_context);
+            //PropertyRepository = new GenericRepository<Properties>(_context);
+            //ProductRepository = new GenericRepository<Products>(_context);
+            //ProductPropertyRepository = new GenericRepository<ProductProperties>(_context);
+            //ProductInstanceRepository = new GenericRepository<ProductInstances>(_context);
         }
 
         private bool disposedValue = false;
 
         public IGenericRepository<Categories> CategoryRepository { get; private set; }
 
-        public IGenericRepository<Properties> PropertyRepository { get; private set; }
+        //public IGenericRepository<Properties> PropertyRepository { get; private set; }
 
-        public IGenericRepository<Products> ProductRepository { get; private set; }
+        //public IGenericRepository<Products> ProductRepository { get; private set; }
 
-        public IGenericRepository<ProductProperties> ProductPropertyRepository { get; private set; }
+        //public IGenericRepository<ProductProperties> ProductPropertyRepository { get; private set; }
 
-        public IGenericRepository<ProductInstances> ProductInstanceRepository { get; private set; }
+        //public IGenericRepository<ProductInstances> ProductInstanceRepository { get; private set; }
 
         public async Task<int> SaveChangesAsync()
         {

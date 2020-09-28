@@ -43,7 +43,10 @@ namespace Infinity.Repositories
         {
             return await _dbSet.FindAsync(id);
         }
-
+        public virtual IQueryable<IGrouping<bool, TEntity>> GroupBy(Expression<Func<TEntity, bool>> filter = null)
+        {
+            return _dbSet.GroupBy(filter);
+        }
         public virtual void Add(TEntity entity)
         {
             _dbSet.Add(entity);

@@ -60,7 +60,8 @@ namespace InfinityStore
                 .AddDataAnnotationsLocalization();
 
             services.AddTransient<GlobalSettingService>();
-            services.AddScoped<IProductService, ProductService>();
+            //services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.Configure<RequestLocalizationOptions>(options =>

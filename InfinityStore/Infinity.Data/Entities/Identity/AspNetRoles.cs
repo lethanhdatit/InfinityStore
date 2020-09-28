@@ -9,6 +9,7 @@ namespace Infinity.Data
         {
             AspNetRoleClaims = new HashSet<AspNetRoleClaims>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
+            RolePermissions = new HashSet<RolePermissions>();
         }
 
         public string Id { get; set; }
@@ -18,5 +19,6 @@ namespace Infinity.Data
 
         public virtual ICollection<AspNetRoleClaims> AspNetRoleClaims { get; set; }
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
+        public virtual ICollection<RolePermissions> RolePermissions { get; set; }
     }
 }

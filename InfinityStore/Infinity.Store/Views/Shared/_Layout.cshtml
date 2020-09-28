@@ -1,9 +1,15 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
+﻿@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Infinity.Services
 @inject GlobalSettingService _settings
 @inject IViewLocalizer Localizer
+@inject ICategoryService CategoryService
 @{
     var globalSetting = _settings.Get();
+    var requestCultureFeature = Context.Features.Get<IRequestCultureFeature>().RequestCulture;
+
+    var cateData = CategoryService.GetToShowMenu(requestCultureFeature.Culture.ThreeLetterISOLanguageName);
+    var jCateData = Newtonsoft.Json.JsonConvert.SerializeObject(cateData);
 }
 <!DOCTYPE html>
 <html>
@@ -30,7 +36,17 @@
     <link rel="stylesheet" href="~/content/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="~/content/css/style.css" type="text/css">
 </head>
+<style>
+    .dropdown-submenu {
+        position: relative;
+    }
 
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+        }
+</style>
 <body>
     <!-- Page Preloder -->
     <div id="preloder">
@@ -76,15 +92,27 @@
                     </div>
                     <div class="col-lg-7 col-md-7">
                         <div class="advanced-search">
+                            <input id="cateDataStr" value="@jCateData" hidden />
                             <button id="js-search-selected-category" data-selected-cate-id="0" type="button" class="category-btn custom-overflow-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Categories</button>
-                            <div class="dropdown-menu" style="white-space: nowrap;">
+                            <ul id="search-category-dropdown-root" class="dropdown-menu" style="white-space: nowrap;">
                                 @for (int i = 1; i <= 6; i++)
                                 {
-                                    <span style="cursor: pointer;" class="dropdown-item js-search-category-item" data-selected-cate-id="@i">Category @i</span>
+                                <li id="search-category-dropdown-root" class="dropdown-submenu" style="white-space: nowrap;">
+                                    <span style="cursor: pointer;" class="dropdown-item js-search-category-item can-expand" data-selected-cate-id="@i">
+                                        <span>Category Category Category Category Category @i</span>
+                                        <i class="can-expand fa fa-angle-right"></i>
+                                    </span>
+                                    <ul class="dropdown-menu" style="white-space: nowrap;">
+                                        @for (int j = 1; j <= 3; j++)
+                                        {
+                                            <li><span style="cursor: pointer;" class="dropdown-item js-search-category-item" data-selected-cate-id="@i">Category @i . @j</span></li>
+                                        }
+                                    </ul>
+                                </li>
                                 }
-                                <div class="dropdown-divider"></div>
-                                <span style="cursor: pointer;" class="dropdown-item js-search-category-item" data-selected-cate-id="-1">Category Category Category Category</span>
-                            </div>
+                                @*<div class="dropdown-divider"></div>
+                                    <span style="cursor: pointer;" class="dropdown-item js-search-category-item" data-selected-cate-id="-1">Category Category Category Category</span>*@
+                            </ul>
                             <div class="input-group">
                                 <input type="text" placeholder="@Localizer["What do you need?"]">
                                 <button type="button"><i class="ti-search"></i></button>

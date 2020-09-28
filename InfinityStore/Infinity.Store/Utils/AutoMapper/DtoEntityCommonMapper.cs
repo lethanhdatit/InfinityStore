@@ -14,13 +14,13 @@ namespace Infinity.Store
         {
             #region Enity To Dto
 
-            CreateMap<Products, ProductsDto>();
+            //CreateMap<Products, ProductsDto>();
 
             #endregion
 
             #region Dto to Entity
 
-            CreateMap<ProductsDto, Products>();
+            //CreateMap<ProductsDto, Products>();
 
             #endregion
         }

@@ -9,6 +9,11 @@ namespace Infinity.Common
        Active = 1,
        Inactive = 2
     }
+    public enum BaseStatus : byte
+    {
+        Active = 1,
+        Inactive = 2
+    }
     public enum ProductStatus : byte
     {
         Active = 1,

@@ -11,6 +11,8 @@ namespace Infinity.Data
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
+            Orders = new HashSet<Orders>();
+            MerchantStores = new HashSet<MerchantStores>();
         }
 
         public string Id { get; set; }
@@ -38,5 +40,7 @@ namespace Infinity.Data
         public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<MerchantStores> MerchantStores { get; set; }
     }
 }

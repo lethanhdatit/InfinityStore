@@ -5,9 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Core\ProductService\IProductService.cs" />
+    <Compile Remove="Core\ProductService\ProductService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Infinity.Common\Infinity.Common.csproj" />
     <ProjectReference Include="..\Infinity.DTOs\Infinity.DTOs.csproj" />
     <ProjectReference Include="..\Infinity.UnitOfWork\Infinity.UnitOfWork.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Core\ProductService\" />
   </ItemGroup>
 
 </Project>

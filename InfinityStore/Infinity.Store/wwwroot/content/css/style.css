@@ -30,6 +30,24 @@
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
+.dropdown-item.can-expand {
+	padding-right: 0.5rem;
+}
+.inner-header .advanced-search .js-search-category-item i.can-expand {
+	/*position: absolute;
+	right: 11px;*/
+	/*top: 10px;*/
+	/*content: "5";
+	font-family: "ElegantIcons";
+	font-size: 16px;
+	color: #b2b2b2;*/
+	/*margin-left: 5px;*/
+	width: 2rem;
+	padding-left: 1rem;
+	color: #b2b2b2;
+	font-size: 19px;
+	font-weight: bold;
+}
 .custom-overflow-default {
 	overflow: hidden;
 	text-overflow: ellipsis;
