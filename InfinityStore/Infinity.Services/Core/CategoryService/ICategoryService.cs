@@ -9,6 +9,6 @@ namespace Infinity.Services
 {
     public interface ICategoryService : IBaseService<Categories, CategoryMenu>
     {
-        IEnumerable<CategoryMenu> GetToShowMenu(string threeLetterISO, byte maxLv = 2);
+        IEnumerable<CategoryMenu> GetToShowMenu(string threeLetterISO, byte maxLv);
     }
 }

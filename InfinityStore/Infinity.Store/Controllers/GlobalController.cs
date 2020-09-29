@@ -18,10 +18,12 @@ namespace Infinity.Store.Controllers
     {
         private readonly ILogger<GlobalController> _logger;
         private readonly ICategoryService  _categoryService;
-        public GlobalController(ILogger<GlobalController> logger, ICategoryService categoryService)
+        private readonly GlobalSettingService _settings;
+        public GlobalController(ILogger<GlobalController> logger, ICategoryService categoryService, GlobalSettingService settings)
         {
             _logger = logger;
             _categoryService = categoryService;
+            _settings = settings;
         }
       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -31,7 +33,7 @@ namespace Infinity.Store.Controllers
         }
         public IActionResult BuildCategories()
         {
-            return Json(_categoryService.GetToShowMenu(HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.ThreeLetterISOLanguageName));
+            return Json(_categoryService.GetToShowMenu(HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.ThreeLetterISOLanguageName, _settings.Get().CATEGORY_MAX_SUB_LEVEL));
         }
         ////[HttpPost]
         //public IActionResult SetLanguage(string culture, string returnUrl)

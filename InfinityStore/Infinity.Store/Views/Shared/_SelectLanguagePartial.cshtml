@@ -18,15 +18,16 @@
 <form id="selectLanguage" asp-controller="Home"
       asp-action="SetLanguage" asp-route-returnUrl="@returnUrl"
       method="post" class="form-horizontal" role="form">
-    <select class="language_drop" name="culture" id="culture" style="width:300px;white-space: nowrap;" onchange="this.form.submit();" asp-for="@requestCulture.RequestCulture.UICulture.Name">
+    <select class="language_drop" name="culture" id="culture" style="width:300px;overflow: hidden; white-space: nowrap;text-overflow: ellipsis;" onchange="this.form.submit();" asp-for="@requestCulture.RequestCulture.UICulture.Name">
         @if (cultureItems != null)
         {
             foreach (var item in cultureItems)
             {
+                var displayName = item.TwoLetterISOLanguageName == "en" ? "English (US)" : item.NativeName;
                 var urlImg = $"/content/img/flag-{item.TwoLetterISOLanguageName}.jpg";
-                <option style="white-space: nowrap;" value='@item.TwoLetterISOLanguageName' data-image="@urlImg" data-imagecss="flag yu"
+                <option style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" value='@item.TwoLetterISOLanguageName' data-image="@urlImg" data-imagecss="flag yu"
                         data-title="@item.NativeName">
-                  @item.ThreeLetterISOLanguageName.ToUpperInvariant()
+                    @displayName
                 </option>
             }
         }

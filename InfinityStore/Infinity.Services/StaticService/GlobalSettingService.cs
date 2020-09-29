@@ -15,14 +15,15 @@ namespace Infinity.Services
 {
     public class GlobalSettingModel
     {
-        public string WebHotline { get; set; }
-        public string WebEmail { get; set; }
-        public string WebAddress { get; set; }
-        public string WebDevOrganization { get; set; }
-        public string CopyrightYear { get; set; }
-        public string FanpageFacebook { get; set; }
-        public string FanpageTwitter { get; set; }
-        public string YouTubeChannel { get; set; }
+        public string WEB_HOTLINE { get; set; }
+        public string WEB_EMAIL { get; set; }
+        public string WEB_ADDRESS { get; set; }
+        public string WEB_DEV_ORGANIZATION { get; set; }
+        public string COPYRIGHT_YEAR { get; set; }
+        public string FANPAGE_FACEBOOK { get; set; }
+        public string FANPAGE_TWITTER { get; set; }
+        public string YOUTUBE_CHANNEL { get; set; }
+        public byte CATEGORY_MAX_SUB_LEVEL { get; set; } = 2;
     }
     public class GlobalSettingService
     {
@@ -38,14 +39,15 @@ namespace Infinity.Services
         {
             var data = _context.GlobalSettings.Where(x => x.Status == (byte)GlobalSettingStatus.Active);
 
-            _Data.WebHotline = data?.FirstOrDefault(x => x.Name.ToLower() == "webhotline")?.Value;
-            _Data.WebEmail = data?.FirstOrDefault(x => x.Name.ToLower() == "webemail")?.Value;
-            _Data.WebAddress = data?.FirstOrDefault(x => x.Name.ToLower() == "webaddress")?.Value;
-            _Data.WebDevOrganization = data?.FirstOrDefault(x => x.Name.ToLower() == "webdevorg")?.Value;
-            _Data.CopyrightYear = data?.FirstOrDefault(x => x.Name.ToLower() == "copyrightyear")?.Value;
-            _Data.FanpageFacebook = data?.FirstOrDefault(x => x.Name.ToLower() == "fanpagefacebook")?.Value;
-            _Data.FanpageTwitter = data?.FirstOrDefault(x => x.Name.ToLower() == "fanpagetwitter")?.Value;
-            _Data.YouTubeChannel = data?.FirstOrDefault(x => x.Name.ToLower() == "youtubechannel")?.Value;
+            _Data.WEB_HOTLINE = data?.FirstOrDefault(x => x.Name.ToUpper() == "WEB_HOTLINE")?.Value;
+            _Data.WEB_EMAIL = data?.FirstOrDefault(x => x.Name.ToUpper() == "WEB_EMAIL")?.Value;
+            _Data.WEB_ADDRESS = data?.FirstOrDefault(x => x.Name.ToUpper() == "WEB_ADDRESS")?.Value;
+            _Data.WEB_DEV_ORGANIZATION = data?.FirstOrDefault(x => x.Name.ToUpper() == "WEB_DEV_ORGANIZATION")?.Value;
+            _Data.COPYRIGHT_YEAR = data?.FirstOrDefault(x => x.Name.ToUpper() == "COPYRIGHT_YEAR")?.Value;
+            _Data.FANPAGE_FACEBOOK = data?.FirstOrDefault(x => x.Name.ToUpper() == "FANPAGE_FACEBOOK")?.Value;
+            _Data.FANPAGE_TWITTER = data?.FirstOrDefault(x => x.Name.ToUpper() == "FANPAGE_TWITTER")?.Value;
+            _Data.YOUTUBE_CHANNEL = data?.FirstOrDefault(x => x.Name.ToUpper() == "YOUTUBE_CHANNEL")?.Value;
+            try { _Data.CATEGORY_MAX_SUB_LEVEL = byte.Parse(data?.FirstOrDefault(x => x.Name.ToUpper() == "CATEGORY_MAX_SUB_LEVEL")?.Value); } catch { }
         }
         public void FetchData()
         {

@@ -19,7 +19,7 @@ namespace Infinity.Services
 
         protected override IGenericRepository<Categories> _reponsitory => _unitOfWork.CategoryRepository;
 
-        public IEnumerable<CategoryMenu> GetToShowMenu(string threeLetterISO, byte maxLv = 2)
+        public IEnumerable<CategoryMenu> GetToShowMenu(string threeLetterISO, byte maxSubLv)
         {
             var results = (new List<CategoryMenu>());
             results.Add(new CategoryMenu()
@@ -64,18 +64,19 @@ namespace Infinity.Services
                 })
                 .ToList());
                 for (int i = 0; i < results.Count; i++)
-                    AddChildren(results[i], dict);
+                    AddChildren(results[i], dict, maxSubLv);
             }
 
             return results;
         }
-        private static void AddChildren(CategoryMenu node, IDictionary<long, List<CategoryMenu>> source)
+        private static void AddChildren(CategoryMenu node, IDictionary<long, List<CategoryMenu>> source, int maxSubLv)
         {
-            if (source.ContainsKey(node.Id))
+            if (source.ContainsKey(node.Id) && maxSubLv > 0)
             {
+                maxSubLv--;
                 node.Children = source[node.Id];
                 for (int i = 0; i < node.Children.Count; i++)
-                    AddChildren(node.Children[i], source);
+                    AddChildren(node.Children[i], source, maxSubLv);
             }
             else
             {

@@ -300,5 +300,21 @@
             }
             return result;
         }
+
+        // Prevent closing from click inside dropdown
+        $(document).on('click', '.dropdown-menu', function (e) {
+            e.stopPropagation();
+        });
+
+        $('.dropdown-menu a').click(function (e) {
+            var root = $(this);
+            if (!$(root).next('ul.dropdown-menu').hasClass('show')) {
+                $(root).parents('.dropdown-menu').first().find('.show').removeClass('show');
+            }
+            var $subMenu = $(root).next('.dropdown-menu');
+            $subMenu.toggleClass('show');
+            e.stopPropagation();
+            e.preventDefault();
+        });
     });
 })(jQuery);

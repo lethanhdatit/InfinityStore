@@ -47,25 +47,27 @@
                 <div class="ht-left">
                     <div class="mail-service">
                         <i class=" fa fa-envelope"></i>
-                        @globalSetting.WebEmail
+                        @globalSetting.WEB_EMAIL
                     </div>
                     <div class="phone-service">
                         <i class=" fa fa-phone"></i>
-                        @globalSetting.WebHotline
+                        @globalSetting.WEB_HOTLINE
                     </div>
                 </div>
                 <div class="ht-right">
-                    @Html.Partial("_LoginPartial.cshtml")
+                    <div class="login-panel">
+                        @await Html.PartialAsync("_LoginPartial.cshtml")
+                    </div>
                     <div class="lan-selector">
                         @await Html.PartialAsync("_SelectLanguagePartial")
                     </div>
                     <div class="top-social">
-                        <a target="_blank" href="@globalSetting.FanpageFacebook"><i class="ti-facebook"></i></a>
-                        <a target="_blank" href="@globalSetting.FanpageTwitter"><i class="ti-twitter-alt"></i></a>
-                        <a target="_blank" href="@globalSetting.YouTubeChannel"><i class="ti-youtube"></i></a>
+                        <a target="_blank" href="@globalSetting.FANPAGE_FACEBOOK"><i class="ti-facebook"></i></a>
+                        <a target="_blank" href="@globalSetting.FANPAGE_TWITTER"><i class="ti-twitter-alt"></i></a>
+                        <a target="_blank" href="@globalSetting.YOUTUBE_CHANNEL"><i class="ti-youtube"></i></a>
                     </div>
                 </div>
-            </div>
+                </div>
         </div>
         <div class="container">
             <div class="inner-header">
@@ -82,8 +84,8 @@
                             <button id="js-search-selected-category" data-selected-cate-id="0" type="button" class="category-btn custom-overflow-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">@Localizer["All Categories"]</button>
                             <span id="search-category-dropdown-root"></span>
                             <div class="input-group">
-                                <input type="text" placeholder="@Localizer["What do you need?"]">
-                                <button type="button"><i class="ti-search"></i></button>
+                                <input id="js-search-term" type="text" placeholder="@Localizer["What do you need?"]">
+                                <button id="js-search-btn" type="button"><i class="ti-search"></i></button>
                             </div>
                         </div>
                     </div>
@@ -150,19 +152,40 @@
         <div class="nav-item">
             <div class="container">
                 <div class="nav-depart">
-                    <div class="depart-btn">
+                    <div data-toggle="dropdown" class="depart-btn">
                         <i class="ti-menu"></i>
-                        <span>All departments</span>
-                        <ul class="depart-hover">
-                            <li class="active"><a href="#">Women’s Clothing</a></li>
-                            <li><a href="#">Men’s Clothing</a></li>
-                            <li><a href="#">Underwear</a></li>
-                            <li><a href="#">Kid's Clothing</a></li>
-                            <li><a href="#">Brand Fashion</a></li>
-                            <li><a href="#">Accessories/Shoes</a></li>
-                            <li><a href="#">Luxury Brands</a></li>
-                            <li><a href="#">Brand Outdoor Apparel</a></li>
+                        @*<span>All departments</span>
+        <ul class="depart-hover">
+            <li class="active"><a href="#">Women’s Clothing</a></li>
+            <li><a href="#">Men’s Clothing</a></li>
+            <li><a href="#">Underwear</a></li>
+            <li><a href="#">Kid's Clothing</a></li>
+            <li><a href="#">Brand Fashion</a></li>
+            <li><a href="#">Accessories/Shoes</a></li>
+            <li><a href="#">Luxury Brands</a></li>
+            <li><a href="#">Brand Outdoor Apparel</a>
+            </li>
+        </ul>*@
+                    <span class="" >All departments</span>
+                        <ul class="dropdown-menu depart-ul">
+                            <li class="dropdown-submenu"><a tabindex="-1" href="#"><span>New </span></a></li>
+                            <li class="dropdown-submenu"><a tabindex="-1" href="#"><span> dropdown dropdown dropdown dropdown dropdown</span></a></li>
+                            <li class="dropdown-submenu">
+                                <a class="test" tabindex="-1" href="#"><span>New dropdown</span> <i class="fa fa-angle-right"></i></a>
+                                <ul class="dropdown-menu depart-ul">
+                                    <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
+                                    <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
+                                    <li class="dropdown-submenu">
+                                        <a class="test" href="#">Another dropdown <i class="fa fa-angle-right"></i></a>
+                                        <ul class="dropdown-menu depart-ul">
+                                            <li><a href="#">3rd level dropdown</a></li>
+                                            <li><a href="#">3rd level dropdown</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
+
                     </div>
                 </div>
                 <nav class="nav-menu mobile-menu">
@@ -237,35 +260,34 @@
     <footer class="footer-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="footer-left">
                         <div class="footer-logo">
                             <a href="#"><img src="/content/img/footer-logo.png" alt=""></a>
                         </div>
                         <ul>
-                            <li>Address: @globalSetting.WebAddress</li>
-                            <li>Phone: @globalSetting.WebHotline</li>
-                            <li>Email: @globalSetting.WebEmail</li>
+                            <li>@Localizer["Address"]: @globalSetting.WEB_ADDRESS</li>
+                            <li>@Localizer["Phone"]: @globalSetting.WEB_HOTLINE</li>
+                            <li>@Localizer["Email"]: @globalSetting.WEB_EMAIL</li>
                         </ul>
                         <div class="footer-social">
-                            <a target="_blank" href="@globalSetting.FanpageFacebook"><i class="fa fa-facebook"></i></a>
-                            <a target="_blank" href="@globalSetting.FanpageTwitter"><i class="fa fa-twitter"></i></a>
-                            <a target="_blank" href="@globalSetting.YouTubeChannel"><i class="fa fa-youtube"></i></a>
+                            <a target="_blank" href="@globalSetting.FANPAGE_FACEBOOK"><i class="fa fa-facebook"></i></a>
+                            <a target="_blank" href="@globalSetting.FANPAGE_TWITTER"><i class="fa fa-twitter"></i></a>
+                            <a target="_blank" href="@globalSetting.YOUTUBE_CHANNEL"><i class="fa fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 offset-lg-1">
+                <div class="col-lg-3 offset-lg-1">
                     <div class="footer-widget">
-                        <h5>Information</h5>
+                        <h5>@Localizer["Information"]</h5>
                         <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Checkout</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Serivius</a></li>
+                            <li><a href="#">@Localizer["About Us"]</a></li>
+                            <li><a href="#">@Localizer["Contact"]</a></li>
+                            <li><a href="#">@Localizer["Privacy Policy"]</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-2">
+                @*<div class="col-lg-2">
                     <div class="footer-widget">
                         <h5>My Account</h5>
                         <ul>
@@ -275,14 +297,14 @@
                             <li><a href="#">Shop</a></li>
                         </ul>
                     </div>
-                </div>
+                </div>*@
                 <div class="col-lg-4">
                     <div class="newslatter-item">
-                        <h5>Join Our Newsletter Now</h5>
-                        <p>Get E-mail updates about our latest shop and special offers.</p>
+                        <h5>@Localizer["Join Our Newsletter Now"]</h5>
+                        <p>@Localizer["Get E-mail updates about our latest shop and special offers"].</p>
                         <form action="#" class="subscribe-form">
-                            <input type="text" placeholder="Enter Your Mail">
-                            <button type="button">Subscribe</button>
+                            <input id="js-subscriber-email" type="text" placeholder="@Localizer["Enter Your Mail"]">
+                            <button id="js-subscribe-btn" type="button">@Localizer["Subscribe"]</button>
                         </form>
                     </div>
                 </div>
@@ -293,8 +315,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="copyright-text">
-                            Copyright &copy;
-                            @globalSetting.CopyrightYear All rights reserved by <a href="#" target="_blank">@globalSetting.WebDevOrganization</a>
+                            @Localizer["Copyright"] &copy;
+                            @globalSetting.COPYRIGHT_YEAR @Localizer["All rights reserved by"] <a href="#" target="_blank">@globalSetting.WEB_DEV_ORGANIZATION</a>
                         </div>
                         <div class="payment-pic">
                             <img src="/content/img/payment-method.png" alt="">
