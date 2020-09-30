@@ -253,7 +253,7 @@
             type: 'GET',
             success: function (result) {
                  //Build search-dropdown categories multi level
-                $('#search-category-dropdown-root').html(menuBuilder(result));
+                $('#search-category-dropdown-root').html(categorySearchDropdownBuilder(result));
 
                 //Init event for selecting dropdown item
                 $('.js-search-category-item').on('click', function () {
@@ -281,8 +281,9 @@
                 // TODO
             }
         });
-        // Build multi-level dropdown
-        var menuBuilder = (cateTree) => {
+
+        // Build multi-level dropdown for search category
+        var categorySearchDropdownBuilder = (cateTree) => {
             if (cateTree && cateTree.length > 0) {
                 var result = "";
                 result += `<ul class="dropdown-menu">`;
@@ -293,7 +294,7 @@
                     result += `<span>${item.id == 0 ? $('#cateDefaultItemLocalizer').val() : item.name}</span>`;
                     if (hasSub) result += `<i class="can-expand fa fa-angle-right"></i>`;
                     result += `</span>`;
-                    if (hasSub) result += menuBuilder(item.children);
+                    if (hasSub) result += categorySearchDropdownBuilder(item.children);
                     result += `</li>`;
                 });
                 result += `</ul>`;
@@ -301,6 +302,24 @@
             return result;
         }
 
+        // Build multi-level dropdown for department menu
+        var departmentMenuDropdownBuilder = (cateTree) => {
+            if (cateTree && cateTree.length > 0) {
+                var result = "";
+                result += `<ul class="dropdown-menu depart-ul">`;
+                cateTree.forEach((item) => {
+                    var hasSub = item.children.length > 0;
+                    result += `<li class="dropdown-submenu ${hasSub ? 'can-expand' : ''}">`;
+                    result += `<a class="test" tabindex="-1" href="${item.id ?? '#'}"><span>${item.id == 0 ? $('#cateDefaultItemLocalizer').val() : item.name}</span>`;
+                    if (hasSub) result += `<i class="fa fa-angle-right"></i>`;
+                    result += `</a>`;
+                    if (hasSub) result += departmentMenuDropdownBuilder(item.children);
+                    result += `</li>`;
+                });
+                result += `</ul>`;
+            }
+            return result;
+        }
         // Prevent closing from click inside dropdown
         $(document).on('click', '.dropdown-menu', function (e) {
             e.stopPropagation();
