@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infinity.Services
 {
-    public class CategoryService : BaseService<Categories, CategoryMenu>, ICategoryService
+    public class CategoryService : BaseService<Categories, CategoryNode>, ICategoryService
     {
         public CategoryService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
@@ -19,15 +19,16 @@ namespace Infinity.Services
 
         protected override IGenericRepository<Categories> _reponsitory => _unitOfWork.CategoryRepository;
 
-        public IEnumerable<CategoryMenu> GetToShowMenu(string threeLetterISO, byte maxSubLv)
+        public IEnumerable<CategoryNode> BuildCategoryTree(string threeLetterISO, byte maxSubLv)
         {
-            var results = (new List<CategoryMenu>());
-            results.Add(new CategoryMenu()
+            var tree = (new List<CategoryNode>());
+            tree.Add(new CategoryNode()
             {
                 Id = 0,
                 Name = "",
                 ImgUrl = null,
-                ParentId = null
+                ParentId = null,
+                SeoUrl = $"/shopping/index/"
             });
 
             var groups = _reponsitory.Find(x => x.Status == (byte)BaseStatus.Active, includeProperties: "CategoryTranslations.Language")
@@ -38,38 +39,40 @@ namespace Infinity.Services
                         .Select(s =>
                         {
                             var cateTransl = s.CategoryTranslations?.FirstOrDefault(f => f.Language?.ThreeLetterIso.ToUpper() == threeLetterISO.ToUpper());
-                            return new CategoryMenu()
+                            return new CategoryNode()
                             {
                                 Id = s.Id,
                                 ParentId = s.ParentId,
                                 Name = cateTransl?.Name,
-                                ImgUrl = cateTransl?.ImgUrl
+                                ImgUrl = cateTransl?.ImgUrl,
+                                SeoUrl = $"/shopping/index/categoryId={s.Id}"
                             };
                         })
                         .ToList();
 
-            if(roots != null && roots.Any()) results.AddRange(roots);
+            if(roots != null && roots.Any()) tree.AddRange(roots);
 
-            if (results != null && results.Count > 1)
+            if (tree != null && tree.Count > 1)
             {
                 var dict = groups?.Where(g => g.Key.HasValue).ToDictionary(g => g.Key.Value, g => g.Select(s => {
                     var cateTransl = s.CategoryTranslations?.FirstOrDefault(f => f.Language?.ThreeLetterIso.ToUpper() == threeLetterISO.ToUpper());
-                    return new CategoryMenu()
+                    return new CategoryNode()
                     {
                         Id = s.Id,
                         ParentId = s.ParentId,
                         Name = cateTransl?.Name,
-                        ImgUrl = cateTransl?.ImgUrl
+                        ImgUrl = cateTransl?.ImgUrl,
+                        SeoUrl = $"/shopping/index/categoryId={s.Id}"
                     };
                 })
                 .ToList());
-                for (int i = 0; i < results.Count; i++)
-                    AddChildren(results[i], dict, maxSubLv);
+                for (int i = 0; i < tree.Count; i++)
+                    AddChildren(tree[i], dict, maxSubLv);
             }
 
-            return results;
+            return tree;
         }
-        private static void AddChildren(CategoryMenu node, IDictionary<long, List<CategoryMenu>> source, int maxSubLv)
+        private static void AddChildren(CategoryNode node, IDictionary<long, List<CategoryNode>> source, int maxSubLv)
         {
             if (source.ContainsKey(node.Id) && maxSubLv > 0)
             {
@@ -80,7 +83,7 @@ namespace Infinity.Services
             }
             else
             {
-                node.Children = new List<CategoryMenu>();
+                node.Children = new List<CategoryNode>();
             }
         }
     }

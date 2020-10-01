@@ -6,6 +6,11 @@
 @inject ICategoryService CategoryService
 @{
     var globalSetting = _settings.Get();
+    var currentSearchTerm = ViewBag.SearchTerm;
+    var currentSearchCategoryId = ViewBag.CategoryId;
+    currentSearchCategoryId = String.IsNullOrWhiteSpace(currentSearchCategoryId) ? "0" : currentSearchCategoryId;
+    var currentSearchCategoryName = ViewBag.CategoryName;
+    currentSearchCategoryName = String.IsNullOrWhiteSpace(currentSearchCategoryName) ? Localizer["All Categories"].Value : currentSearchCategoryName;
 }
 <!DOCTYPE html>
 <html>
@@ -67,7 +72,7 @@
                         <a target="_blank" href="@globalSetting.YOUTUBE_CHANNEL"><i class="ti-youtube"></i></a>
                     </div>
                 </div>
-                </div>
+            </div>
         </div>
         <div class="container">
             <div class="inner-header">
@@ -81,10 +86,10 @@
                     </div>
                     <div class="col-lg-8 col-md-8">
                         <div class="advanced-search">
-                            <button id="js-search-selected-category" data-selected-cate-id="0" type="button" class="category-btn custom-overflow-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">@Localizer["All Categories"]</button>
+                            <button id="js-search-selected-category" data-selected-cate-id="@currentSearchCategoryId" type="button" class="category-btn custom-overflow-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">@currentSearchCategoryName</button>
                             <span id="search-category-dropdown-root"></span>
                             <div class="input-group">
-                                <input id="js-search-term" type="text" placeholder="@Localizer["What do you need?"]">
+                                <input id="js-search-term" value="@currentSearchTerm" type="text" placeholder="@Localizer["What do you need?"]">
                                 <button id="js-search-btn" type="button"><i class="ti-search"></i></button>
                             </div>
                         </div>
@@ -154,41 +159,13 @@
                 <div class="nav-depart">
                     <div data-toggle="dropdown" class="depart-btn">
                         <i class="ti-menu"></i>
-                        @*<span>All departments</span>
-        <ul class="depart-hover">
-            <li class="active"><a href="#">Women’s Clothing</a></li>
-            <li><a href="#">Men’s Clothing</a></li>
-            <li><a href="#">Underwear</a></li>
-            <li><a href="#">Kid's Clothing</a></li>
-            <li><a href="#">Brand Fashion</a></li>
-            <li><a href="#">Accessories/Shoes</a></li>
-            <li><a href="#">Luxury Brands</a></li>
-            <li><a href="#">Brand Outdoor Apparel</a>
-            </li>
-        </ul>*@
-                    <span class="" >All departments</span>
-                        <ul class="dropdown-menu depart-ul">
-                            <li class="dropdown-submenu"><a tabindex="-1" href="#"><span>New </span></a></li>
-                            <li class="dropdown-submenu"><a tabindex="-1" href="#"><span> dropdown dropdown dropdown dropdown dropdown</span></a></li>
-                            <li class="dropdown-submenu can-expand"><a class="test" tabindex="-1" href="#"><span>New dropdown</span> <i class="fa fa-angle-right"></i></a>
-                                <ul class="dropdown-menu depart-ul">
-                                    <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
-                                    <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
-                                    <li class="dropdown-submenu">
-                                        <a class="test" href="#">Another dropdown <i class="fa fa-angle-right"></i></a>
-                                        <ul class="dropdown-menu depart-ul">
-                                            <li><a href="#">3rd level dropdown</a></li>
-                                            <li><a href="#">3rd level dropdown</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <span class="js-department-default">@Localizer["Departments store"]</span>
+                        <span id="js-department-menu-dropdown-root"></span>
                     </div>
                 </div>
                 <nav class="nav-menu mobile-menu">
                     <ul>
-                        <li class="active"><a href="./index.html">Home</a></li>
+                        <li class="active"><a href="/">Home</a></li>
                         <li><a href="./shop.html">Shop</a></li>
                         <li>
                             <a href="#">Collection</a>
@@ -286,16 +263,16 @@
                     </div>
                 </div>
                 @*<div class="col-lg-2">
-                    <div class="footer-widget">
-                        <h5>My Account</h5>
-                        <ul>
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Shopping Cart</a></li>
-                            <li><a href="#">Shop</a></li>
-                        </ul>
-                    </div>
-                </div>*@
+                        <div class="footer-widget">
+                            <h5>My Account</h5>
+                            <ul>
+                                <li><a href="#">My Account</a></li>
+                                <li><a href="#">Contact</a></li>
+                                <li><a href="#">Shopping Cart</a></li>
+                                <li><a href="#">Shop</a></li>
+                            </ul>
+                        </div>
+                    </div>*@
                 <div class="col-lg-4">
                     <div class="newslatter-item">
                         <h5>@Localizer["Join Our Newsletter Now"]</h5>

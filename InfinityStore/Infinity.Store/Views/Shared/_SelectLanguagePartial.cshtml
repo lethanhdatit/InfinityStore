@@ -15,7 +15,7 @@
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
 }
 
-<form id="selectLanguage" asp-controller="Home"
+<form id="selectLanguage" asp-controller="Global"
       asp-action="SetLanguage" asp-route-returnUrl="@returnUrl"
       method="post" class="form-horizontal" role="form">
     <select class="language_drop" name="culture" id="culture" style="width:300px;overflow: hidden; white-space: nowrap;text-overflow: ellipsis;" onchange="this.form.submit();" asp-for="@requestCulture.RequestCulture.UICulture.Name">

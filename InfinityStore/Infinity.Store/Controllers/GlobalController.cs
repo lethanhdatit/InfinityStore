@@ -31,20 +31,22 @@ namespace Infinity.Store.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
         public IActionResult BuildCategories()
         {
-            return Json(_categoryService.GetToShowMenu(HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.ThreeLetterISOLanguageName, _settings.Get().CATEGORY_MAX_SUB_LEVEL));
+            return Json(_categoryService.BuildCategoryTree(HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.ThreeLetterISOLanguageName, _settings.Get().CATEGORY_MAX_SUB_LEVEL));
         }
-        ////[HttpPost]
-        //public IActionResult SetLanguage(string culture, string returnUrl)
-        //{
-        //    Response.Cookies.Append(
-        //        CookieRequestCultureProvider.DefaultCookieName,
-        //        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-        //        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-        //    );
 
-        //    return LocalRedirect(returnUrl);
-        //}
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
     }
 }

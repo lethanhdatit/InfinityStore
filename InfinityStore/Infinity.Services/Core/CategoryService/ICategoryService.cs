@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Infinity.Services
 {
-    public interface ICategoryService : IBaseService<Categories, CategoryMenu>
+    public interface ICategoryService : IBaseService<Categories, CategoryNode>
     {
-        IEnumerable<CategoryMenu> GetToShowMenu(string threeLetterISO, byte maxLv);
+        IEnumerable<CategoryNode> BuildCategoryTree(string threeLetterISO, byte maxLv);
     }
 }

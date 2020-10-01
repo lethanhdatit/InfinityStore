@@ -14,24 +14,29 @@ using Microsoft.AspNetCore.Http;
 
 namespace Infinity.Store.Controllers
 {
-    public class HomeController : Controller
+    public class ShoppingController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ILogger<ShoppingController> _logger;
+        private readonly ICategoryService  _categoryService;
+        private readonly GlobalSettingService _settings;
+        public ShoppingController(ILogger<ShoppingController> logger, ICategoryService categoryService, GlobalSettingService settings)
         {
             _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
+            _categoryService = categoryService;
+            _settings = settings;
         }
       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult Index(string searchTerm, long? categoryId)
+        {
+            ViewBag.SearchTerm = searchTerm;
+            ViewBag.CategoryId = categoryId;
+            ViewBag.CategoryName = "";
+            return View();
         }
     }
 }

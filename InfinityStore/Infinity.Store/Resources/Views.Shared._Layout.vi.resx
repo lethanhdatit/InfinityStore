@@ -135,6 +135,9 @@
   <data name="Copyright" xml:space="preserve">
     <value>Bản quyền năm</value>
   </data>
+  <data name="Departments store" xml:space="preserve">
+    <value>danh mục</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>

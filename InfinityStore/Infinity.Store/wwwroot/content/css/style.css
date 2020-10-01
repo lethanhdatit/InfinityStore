@@ -720,13 +720,14 @@ ol {
 	float: left;
 }
 
-.nav-item .nav-depart .depart-btn {
-	background: #3b3b3b;
-	color: #ffffff;
-	padding: 14px 84px 14px 18px;
-	cursor: pointer;
-	position: relative;
-}
+	.nav-item .nav-depart .depart-btn {
+		background: #3b3b3b;
+		color: #ffffff;
+		padding: 14px 50px 14px 18px;
+		cursor: pointer;
+		position: relative;
+		max-width: 280px;
+	}
 
 .nav-item .nav-depart .depart-btn:hover .depart-ul {
 	/*top: 52px;
@@ -750,7 +751,7 @@ ol {
 	font-size: 16px;
 }
 
-	.nav-item .nav-depart .depart-btn span {
+	.nav-item .nav-depart .depart-btn span.js-department-default {
 		font-size: 14px;
 		font-weight: 700;
 		text-transform: uppercase;
@@ -824,7 +825,7 @@ ol {
 	color: #b2b2b2;
 	font-size: 19px;
 	font-weight: bold;
-	height: 20px;	
+	height: 1.25rem;	
 }
 .nav-item .nav-menu {
 	display: -webkit-inline-box;

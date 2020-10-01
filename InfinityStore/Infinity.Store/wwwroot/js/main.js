@@ -254,7 +254,7 @@
             success: function (result) {
                  //Build search-dropdown categories multi level
                 $('#search-category-dropdown-root').html(categorySearchDropdownBuilder(result));
-
+             
                 //Init event for selecting dropdown item
                 $('.js-search-category-item').on('click', function () {
                     var cateId = $(this).data('selected-cate-id');
@@ -276,6 +276,26 @@
                     e.stopPropagation();
                     e.preventDefault();
                 });
+
+                //Build department-menu-dropdown categories multi level
+                $('#js-department-menu-dropdown-root').html(departmentMenuDropdownBuilder(result));
+
+                // Prevent closing from click inside dropdown
+                $(document).on('click', '.dropdown-menu', function (e) {
+                    e.stopPropagation();
+                });
+
+                $('.dropdown-menu a i').click(function (e) {
+                    var root = $(this).parent('a');
+                    if (!$(root).next('ul.dropdown-menu').hasClass('show')) {
+                        $(root).parents('.dropdown-menu').first().find('.show').removeClass('show');
+                    }
+                    var $subMenu = $(root).next('.dropdown-menu');
+                    $subMenu.toggleClass('show');
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+
             },
             error: function (jqXhr, textStatus, errorThrown) {
                 // TODO
@@ -308,32 +328,19 @@
                 var result = "";
                 result += `<ul class="dropdown-menu depart-ul">`;
                 cateTree.forEach((item) => {
-                    var hasSub = item.children.length > 0;
-                    result += `<li class="dropdown-submenu ${hasSub ? 'can-expand' : ''}">`;
-                    result += `<a class="test" tabindex="-1" href="${item.id ?? '#'}"><span>${item.id == 0 ? $('#cateDefaultItemLocalizer').val() : item.name}</span>`;
-                    if (hasSub) result += `<i class="fa fa-angle-right"></i>`;
-                    result += `</a>`;
-                    if (hasSub) result += departmentMenuDropdownBuilder(item.children);
-                    result += `</li>`;
+                    if (item.id != 0) {
+                        var hasSub = item.children.length > 0;
+                        result += `<li class="dropdown-submenu" >`;
+                        result += `<a class="test" tabindex="-1" href="${(item.seoUrl ?? '#')}"><span>${item.name}</span>`;
+                        if (hasSub) result += `<i class="fa fa-angle-right"></i>`;
+                        result += `</a>`;
+                        if (hasSub) result += departmentMenuDropdownBuilder(item.children);
+                        result += `</li>`;
+                    }
                 });
                 result += `</ul>`;
             }
             return result;
         }
-        // Prevent closing from click inside dropdown
-        $(document).on('click', '.dropdown-menu', function (e) {
-            e.stopPropagation();
-        });
-
-        $('.dropdown-menu a').click(function (e) {
-            var root = $(this);
-            if (!$(root).next('ul.dropdown-menu').hasClass('show')) {
-                $(root).parents('.dropdown-menu').first().find('.show').removeClass('show');
-            }
-            var $subMenu = $(root).next('.dropdown-menu');
-            $subMenu.toggleClass('show');
-            e.stopPropagation();
-            e.preventDefault();
-        });
     });
 })(jQuery);
