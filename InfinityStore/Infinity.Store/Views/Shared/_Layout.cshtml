@@ -6,11 +6,10 @@
 @inject ICategoryService CategoryService
 @{
     var globalSetting = _settings.Get();
-    var currentSearchTerm = ViewBag.SearchTerm;
-    var currentSearchCategoryId = ViewBag.CategoryId;
-    currentSearchCategoryId = String.IsNullOrWhiteSpace(currentSearchCategoryId) ? "0" : currentSearchCategoryId;
-    var currentSearchCategoryName = ViewBag.CategoryName;
-    currentSearchCategoryName = String.IsNullOrWhiteSpace(currentSearchCategoryName) ? Localizer["All Categories"].Value : currentSearchCategoryName;
+    var request = ViewContext.HttpContext.Request;
+    var currentSearchTerm = request.Query["searchTerm"];
+    var currentSearchCategoryId = request.Query["categoryId"].ToString();
+    currentSearchCategoryId = !String.IsNullOrWhiteSpace(currentSearchCategoryId) ? currentSearchCategoryId : "0";
 }
 <!DOCTYPE html>
 <html>
@@ -86,7 +85,7 @@
                     </div>
                     <div class="col-lg-8 col-md-8">
                         <div class="advanced-search">
-                            <button id="js-search-selected-category" data-selected-cate-id="@currentSearchCategoryId" type="button" class="category-btn custom-overflow-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">@currentSearchCategoryName</button>
+                            <button id="js-search-selected-category" data-selected-cate-id="@currentSearchCategoryId" type="button" class="category-btn custom-overflow-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">@Localizer["All Categories"]</button>
                             <span id="search-category-dropdown-root"></span>
                             <div class="input-group">
                                 <input id="js-search-term" value="@currentSearchTerm" type="text" placeholder="@Localizer["What do you need?"]">

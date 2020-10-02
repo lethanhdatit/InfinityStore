@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Infinity.Store.Controllers
 {
+    //[Route("shopping")]
     public class ShoppingController : Controller
     {
         private readonly ILogger<ShoppingController> _logger;
@@ -31,11 +32,9 @@ namespace Infinity.Store.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public IActionResult Index(string searchTerm, long? categoryId)
+        [HttpGet]
+        public IActionResult Index([FromQuery]string searchTerm, [FromQuery] long? CategoryId)
         {
-            ViewBag.SearchTerm = searchTerm;
-            ViewBag.CategoryId = categoryId;
-            ViewBag.CategoryName = "";
             return View();
         }
     }

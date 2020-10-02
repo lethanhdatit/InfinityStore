@@ -248,18 +248,23 @@
 	});
 
     $(document).ready(function () {
+        var searchSelectedCateItem = $('#js-search-selected-category');
         $.ajax({
             url: $('#build-categories-api-endpoint').val(),
             type: 'GET',
             success: function (result) {
                  //Build search-dropdown categories multi level
                 $('#search-category-dropdown-root').html(categorySearchDropdownBuilder(result));
-             
+
+                //init selected category search by router
+                var selectedCateId = $(searchSelectedCateItem).data('selected-cate-id');
+                var selectedCateName = $(`#search-category-dropdown-root .js-search-category-item[data-selected-cate-id=${selectedCateId}] span`).text();
+                $(searchSelectedCateItem).html(selectedCateName);
+
                 //Init event for selecting dropdown item
                 $('.js-search-category-item').on('click', function () {
                     var cateId = $(this).data('selected-cate-id');
                     var cateText = $(this).text();
-                    var searchSelectedCateItem = $('#js-search-selected-category');
                     $(searchSelectedCateItem).html(cateText);
                     $(searchSelectedCateItem).attr('data-selected-cate-id', cateId);
                     $(this).parents('.dropdown-menu').first().find('.show').removeClass('show');
